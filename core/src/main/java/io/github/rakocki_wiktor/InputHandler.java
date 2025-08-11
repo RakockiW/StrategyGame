@@ -40,10 +40,8 @@ public class InputHandler {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) camera.position.x -= speed;
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) camera.zoom += 0.02f;
         if (Gdx.input.isKeyPressed(Input.Keys.E)) camera.zoom -= 0.02f;
-
-
-
-
+        if (Gdx.input.isKeyPressed(Input.Keys.Z)) camera.rotate(1f);
+        if (Gdx.input.isKeyPressed(Input.Keys.X)) camera.rotate(-1f);
     }
 
 }

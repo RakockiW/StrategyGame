@@ -20,7 +20,7 @@ public class StrategyGame extends ApplicationAdapter {
     GameRenderer renderer;
     OrthographicCamera camera;
     ArrayList<Province> provinces;
-    public final int MAP_WIDTH = 3000;
+    public final int MAP_WIDTH = 5000;
     public final int MAP_HEIGHT = 3000;
 
     @Override
