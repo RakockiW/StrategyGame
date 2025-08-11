@@ -1,13 +1,15 @@
-package io.github.rakocki_wiktor;
+package io.github.rakocki_wiktor.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
+import io.github.rakocki_wiktor.model.Province;
 
 import java.util.ArrayList;
 
-public class InputHandler {
+public class InputHandler extends InputAdapter {
 
     ArrayList<Province> provinces;
     OrthographicCamera camera;
@@ -16,22 +18,39 @@ public class InputHandler {
         this.provinces = provinces;
         this.camera = camera;
     }
-    public void listen() {
-        handleMouseHover();
-        handleCameraMovement();
-    }
 
-    private void handleMouseHover() {
-        Vector3 worldCoords = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (button != Input.Buttons.LEFT) return false;
+        Vector3 worldCoords = camera.unproject(new Vector3(screenX, screenY, 0));
         float mouseX = worldCoords.x;
         float mouseY = worldCoords.y;
 
         for (Province province : provinces) {
-            province.hovered = province.contains(mouseX, mouseY);
+            if (province.contains(mouseX, mouseY)) {
+                province.setSelected(true);
+                return true;
+            }
         }
+
+        return false;
+
     }
 
-    private void handleCameraMovement() {
+    public boolean mouseMoved(int screenX, int screenY) {
+        Vector3 worldCoords = camera.unproject(new Vector3(screenX, screenY, 0));
+        float mouseX = worldCoords.x;
+        float mouseY = worldCoords.y;
+
+        for (Province province : provinces) {
+            province.setHovered(province.contains(mouseX, mouseY));
+
+        }
+
+        return false;
+    }
+
+
+    public void update() {
         float speed = 300 * Gdx.graphics.getDeltaTime();
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) camera.position.y += speed;

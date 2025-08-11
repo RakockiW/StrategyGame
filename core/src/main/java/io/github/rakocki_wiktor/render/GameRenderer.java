@@ -1,4 +1,4 @@
-package io.github.rakocki_wiktor;
+package io.github.rakocki_wiktor.render;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import io.github.rakocki_wiktor.model.Province;
 
 import java.util.ArrayList;
 

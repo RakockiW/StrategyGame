@@ -4,10 +4,10 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.rakocki_wiktor.model.Province;
+import io.github.rakocki_wiktor.render.GameRenderer;
+import io.github.rakocki_wiktor.utils.InputHandler;
+import io.github.rakocki_wiktor.utils.MapGenerator;
 
 import java.util.ArrayList;
 
@@ -31,12 +31,13 @@ public class StrategyGame extends ApplicationAdapter {
         mapGenerator = new MapGenerator(MAP_WIDTH, MAP_HEIGHT);
         provinces = mapGenerator.generateProvinces();
         inputHandler = new InputHandler(provinces, camera);
+        Gdx.input.setInputProcessor(inputHandler);
     }
 
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        inputHandler.listen();
+        inputHandler.update();
         camera.update();
         renderer.render(provinces);
     }

@@ -1,5 +1,10 @@
-package io.github.rakocki_wiktor;
+package io.github.rakocki_wiktor.utils;
 
+
+import io.github.rakocki_wiktor.model.AIPlayer;
+import io.github.rakocki_wiktor.model.Player;
+import io.github.rakocki_wiktor.model.Province;
+import io.github.rakocki_wiktor.render.Vertex;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -33,8 +38,8 @@ public class MapGenerator {
 
         for (Vertex[] vertexRow : verticesGrid) {
             for (Vertex vertex : vertexRow) {
-                vertex.offsetX = random.nextFloat(20f + 20f) - 20;
-                vertex.offsetY = random.nextFloat(20f + 20f) - 20;
+                vertex.setOffsetX(random.nextFloat(20f + 20f) - 20);
+                vertex.setOffsetY(random.nextFloat(20f + 20f) - 20);
             }
         }
 
@@ -55,12 +60,15 @@ public class MapGenerator {
                     vertices[i * 2] = provinceVertices[i].getX();
                     vertices[i*2+1] = provinceVertices[i].getY();
                 }
-
-                Province province = new Province(vertices);
-                int waterChance = random.nextInt(10);
-                if (waterChance == 1) {
-                    province.type = 2;
+                int armySize = random.nextInt(100);
+                Player player;
+                if (random.nextInt(3) > 1) {
+                    player = new Player();
                 }
+                else {
+                    player = new AIPlayer();
+                }
+                Province province = new Province(vertices, 1, armySize, player );
                 provinces.add(province);
 
             }

@@ -1,4 +1,4 @@
-package io.github.rakocki_wiktor;
+package io.github.rakocki_wiktor.render;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.EarClippingTriangulator;
 import com.badlogic.gdx.utils.ShortArray;
+import io.github.rakocki_wiktor.model.Province;
 
 import java.util.ArrayList;
 
@@ -30,13 +31,17 @@ public class ProvinceRenderer {
 
         shape.begin(ShapeRenderer.ShapeType.Filled);
         for (Province province : provinces) {
-            if (province.hovered) {
+            if (province.isHovered()) {
                 shape.setColor(Color.GREEN);
             } else {
-                if (province.type == 1) shape.setColor(Color.OLIVE);
+                if (province.getType() == 1) shape.setColor(province.getColor());
                 else shape.setColor(Color.BLUE);
             }
-            float[] vertices = province.vertices;
+
+            if (province.isSelected()) {
+                shape.setColor(Color.BLUE);
+            }
+            float[] vertices = province.getVertices();
             ShortArray indices = triangulator.computeTriangles(vertices);
 
             for (int i = 0; i < indices.size; i += 3) {
@@ -57,15 +62,15 @@ public class ProvinceRenderer {
 
         shape.begin(ShapeRenderer.ShapeType.Line);
         for (Province province : provinces) {
-            if (!province.hovered) {
+            if (!province.isHovered()) {
                 shape.setColor(Color.BLACK);
-                shape.polygon(province.vertices);
+                shape.polygon(province.getVertices());
             }
         }
         for (Province province : provinces) {
-            if (province.hovered) {
+            if (province.isHovered()) {
                 shape.setColor(Color.WHITE);
-                shape.polygon(province.vertices);
+                shape.polygon(province.getVertices());
             }
         }
         shape.end();
@@ -73,9 +78,9 @@ public class ProvinceRenderer {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         for (Province province : provinces) {
-            if (province.hovered) {
+            if (province.isHovered()) {
                 float[] center = province.getCenter();
-                font.draw(batch, province.armySize, center[0], center[1]);
+                font.draw(batch, String.valueOf(province.getArmySize()), center[0], center[1]);
             }
         }
         batch.end();
