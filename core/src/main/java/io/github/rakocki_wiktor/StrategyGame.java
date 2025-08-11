@@ -2,10 +2,15 @@ package io.github.rakocki_wiktor;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.rakocki_wiktor.logic.GameController;
 import io.github.rakocki_wiktor.model.Province;
 import io.github.rakocki_wiktor.render.GameRenderer;
+import io.github.rakocki_wiktor.ui.UIManager;
 import io.github.rakocki_wiktor.utils.InputHandler;
 import io.github.rakocki_wiktor.utils.MapGenerator;
 
@@ -18,6 +23,7 @@ public class StrategyGame extends ApplicationAdapter {
     MapGenerator mapGenerator;
     InputHandler inputHandler;
     GameRenderer renderer;
+    UIManager uiManager;
     OrthographicCamera camera;
     ArrayList<Province> provinces;
     public final int MAP_WIDTH = 5000;
@@ -27,11 +33,20 @@ public class StrategyGame extends ApplicationAdapter {
     public void create() {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        renderer = new GameRenderer(camera);
+        Stage stage = new Stage(new ScreenViewport());
+        renderer = new GameRenderer(camera, stage);
         mapGenerator = new MapGenerator(MAP_WIDTH, MAP_HEIGHT);
         provinces = mapGenerator.generateProvinces();
-        inputHandler = new InputHandler(provinces, camera);
-        Gdx.input.setInputProcessor(inputHandler);
+        GameController gameController = new GameController();
+        inputHandler = new InputHandler(provinces, camera, gameController);
+        uiManager = new UIManager(stage, gameController);
+        gameController.setUiEventListener(uiManager);
+
+
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(inputHandler);
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override

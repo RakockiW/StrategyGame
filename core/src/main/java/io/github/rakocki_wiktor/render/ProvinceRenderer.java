@@ -41,6 +41,11 @@ public class ProvinceRenderer {
             if (province.isSelected()) {
                 shape.setColor(Color.BLUE);
             }
+
+            if (province.isAttacked()) {
+                shape.setColor(Color.RED);
+            }
+
             float[] vertices = province.getVertices();
             ShortArray indices = triangulator.computeTriangles(vertices);
 

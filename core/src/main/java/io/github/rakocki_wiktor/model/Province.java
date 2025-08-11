@@ -10,6 +10,7 @@ public class Province {
     int armySize;
     boolean hovered;
     boolean selected;
+    boolean attacked;
     int type;
     Player owner;
     Color color;
@@ -90,6 +91,7 @@ public class Province {
 
     public void setOwner(Player owner) {
         this.owner = owner;
+        this.color = owner.getColor();
     }
 
     public Color getColor() {
@@ -98,5 +100,13 @@ public class Province {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public void setAttacked(boolean attacked) {
+        this.attacked = attacked;
+    }
+
+    public boolean isAttacked() {
+        return attacked;
     }
 }

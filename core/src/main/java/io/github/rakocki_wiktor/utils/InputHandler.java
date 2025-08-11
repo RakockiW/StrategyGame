@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
+import io.github.rakocki_wiktor.logic.GameController;
 import io.github.rakocki_wiktor.model.Province;
 
 import java.util.ArrayList;
@@ -13,10 +14,12 @@ public class InputHandler extends InputAdapter {
 
     ArrayList<Province> provinces;
     OrthographicCamera camera;
+    GameController gameController;
 
-    public InputHandler(ArrayList<Province> provinces, OrthographicCamera camera) {
+    public InputHandler(ArrayList<Province> provinces, OrthographicCamera camera, GameController gameController) {
         this.provinces = provinces;
         this.camera = camera;
+        this.gameController = gameController;
     }
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -27,7 +30,7 @@ public class InputHandler extends InputAdapter {
 
         for (Province province : provinces) {
             if (province.contains(mouseX, mouseY)) {
-                province.setSelected(true);
+                gameController.onProvinceClick(province);
                 return true;
             }
         }
@@ -43,7 +46,6 @@ public class InputHandler extends InputAdapter {
 
         for (Province province : provinces) {
             province.setHovered(province.contains(mouseX, mouseY));
-
         }
 
         return false;

@@ -18,17 +18,14 @@ public class GameRenderer {
     private SpriteBatch batch;
     private BitmapFont font;
     private Stage stage;
-    private Table table;
 
 
-    public GameRenderer(OrthographicCamera camera) {
+    public GameRenderer(OrthographicCamera camera, Stage stage) {
         this.shape = new ShapeRenderer();
         this.batch = new SpriteBatch();
         this.font = new BitmapFont();
-        this.stage = new Stage();
-        this.table = new Table();
         provinceRenderer = new ProvinceRenderer(shape, batch, font, camera);
-        uiRenderer = new UIRenderer(stage, table);
+        uiRenderer = new UIRenderer(stage);
     }
 
     public void render(ArrayList<Province> provinces) {

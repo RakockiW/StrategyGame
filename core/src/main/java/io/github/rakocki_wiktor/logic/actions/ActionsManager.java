@@ -13,6 +13,10 @@ public class ActionsManager {
         actions.remove(action);
     }
 
+    public void removeAllActions() {
+        actions.clear();
+    }
+
     public void executeActions() {
         for (Action action : actions) {
             action.execute();
