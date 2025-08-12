@@ -4,34 +4,41 @@ import io.github.rakocki_wiktor.model.Province;
 
 public class AttackAction implements Action {
     private Province provinceAttacking, provinceAttacked;
+    private int attackingArmySize;
 
-    public AttackAction(Province provinceAttacking, Province provinceAttacked) {
+    public AttackAction(Province provinceAttacking, Province provinceAttacked, int attackingArmySize) {
         this.provinceAttacking = provinceAttacking;
         this.provinceAttacked = provinceAttacked;
+        this.attackingArmySize = attackingArmySize;
     }
 
-    public void result(Province winner, Province loser) {
-        winner.setArmySize(provinceAttacking.getArmySize() - provinceAttacked.getArmySize());
-        loser.setArmySize(provinceAttacking.getArmySize());
+    public void win(Province winner, Province loser) {
+        loser.setArmySize(attackingArmySize - loser.getArmySize());
         loser.setOwner(winner.getOwner());
         loser.setAttacked(false);
     }
 
+    public void lose(Province winner, Province loser) {
+        winner.setArmySize(winner.getArmySize() - attackingArmySize);
+        winner.setAttacked(false);
+    }
+
     @Override
     public void execute() {
-        int attackingArmySize = provinceAttacking.getArmySize();
         int attackedArmySize = provinceAttacked.getArmySize();
 
+        Province winner;
+        Province loser;
+
         if (attackingArmySize > attackedArmySize) {
-            Province winner = provinceAttacking;
-            Province loser = provinceAttacked;
-
-            result(winner, loser);
+            winner = provinceAttacking;
+            loser = provinceAttacked;
+            win(winner, loser);
         } else {
-            Province winner = provinceAttacked;
-            Province loser = provinceAttacking;
+            winner = provinceAttacked;
+            loser = provinceAttacking;
+            lose(winner, loser);
 
-            result(winner, loser);
         }
     }
 }

@@ -31,10 +31,11 @@ public class ProvinceRenderer {
 
         shape.begin(ShapeRenderer.ShapeType.Filled);
         for (Province province : provinces) {
+
             if (province.isHovered()) {
                 shape.setColor(Color.GREEN);
             } else {
-                if (province.getType() == 1) shape.setColor(province.getColor());
+                if (province.getType() == 1) shape.setColor(province.getOwner().getColor());
                 else shape.setColor(Color.BLUE);
             }
 
