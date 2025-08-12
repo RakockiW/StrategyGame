@@ -8,11 +8,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.rakocki_wiktor.logic.GameController;
+import io.github.rakocki_wiktor.map.MapPopulator;
+import io.github.rakocki_wiktor.model.Nation;
 import io.github.rakocki_wiktor.model.Province;
 import io.github.rakocki_wiktor.render.GameRenderer;
 import io.github.rakocki_wiktor.ui.UIManager;
 import io.github.rakocki_wiktor.utils.InputHandler;
-import io.github.rakocki_wiktor.utils.MapGenerator;
+import io.github.rakocki_wiktor.map.MapGenerator;
 
 import java.util.ArrayList;
 
@@ -21,11 +23,13 @@ public class StrategyGame extends ApplicationAdapter {
 
 
     MapGenerator mapGenerator;
+    MapPopulator mapPopulator;
     InputHandler inputHandler;
     GameRenderer renderer;
     UIManager uiManager;
     OrthographicCamera camera;
     ArrayList<Province> provinces;
+    ArrayList<Nation> nations;
     public final int MAP_WIDTH = 5000;
     public final int MAP_HEIGHT = 3000;
 
@@ -37,6 +41,9 @@ public class StrategyGame extends ApplicationAdapter {
         renderer = new GameRenderer(camera, stage);
         mapGenerator = new MapGenerator(MAP_WIDTH, MAP_HEIGHT);
         provinces = mapGenerator.generateProvinces();
+        mapPopulator = new MapPopulator(provinces);
+        nations = mapPopulator.populate();
+
         GameController gameController = new GameController();
         inputHandler = new InputHandler(provinces, camera, gameController);
         uiManager = new UIManager(stage, gameController);

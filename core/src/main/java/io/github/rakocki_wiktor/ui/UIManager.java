@@ -13,80 +13,74 @@ public class UIManager implements UIEventListener {
 
     private Stage stage;
     private Table table;
-    private TextButton attackButton, endTurnButton;
-    private Slider armySlider;
-    private Label armySliderLabel;
+    private UIFactory uiFactory;
+    private TextButton attackButton, endTurnButton, recruitButton;
+    private Slider selectionSlider;
+    private Label selectionSliderLabel;
+    private TextArea provinceInfoArea;
     private GameController gameController;
 
     public UIManager(Stage stage, GameController gameController) {
         this.stage = stage;
         this.gameController = gameController;
-
         this.table = new Table();
-        Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
-        table.setFillParent(true);
-        stage.addActor(table);
+        uiFactory = new UIFactory(stage, table, gameController);
+        attackButton = uiFactory.createAttackButton();
+        recruitButton = uiFactory.createRecruitButton();
+        endTurnButton = uiFactory.createEndTurnButton();
+        selectionSliderLabel = uiFactory.createSelectionSliderLabel();
+        selectionSlider = uiFactory.createSelectionSlider(selectionSliderLabel);
+        provinceInfoArea = uiFactory.createProvinceInfoArea();
 
-        TextButton endTurnButton = new TextButton("End turn", skin);
-
-        endTurnButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                gameController.endTurn();
-            }
-        });
-
-        attackButton = new TextButton("Attack", skin);
-
-        attackButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                gameController.onAttackButtonClick();
-            }
-        });
-
-        attackButton.setVisible(false);
-        armySliderLabel = new Label("0", skin);
-        armySlider = new Slider(0f, 100f, 1f, false, skin);
-
-        armySliderLabel.setVisible(false);
-        armySlider.setVisible(false);
-
-        armySlider.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                float value = armySlider.getValue();
-                armySliderLabel.setText("Troops: " + (int) value);
-            }
-        });
-
-        table.add(attackButton).expand().bottom().left().width(100).height(100);
-        table.add(armySliderLabel).expand().bottom().width(100).height(100);
-        table.add(armySlider).expand().bottom().height(100);
-        table.add(endTurnButton).expand().bottom().right().width(100).height(100);
+        table.top().left();
+        table.add(provinceInfoArea).expand().top().left().width(300).height(300).pad(10);
+        table.row();
+        table.add(attackButton).expand().bottom().left().width(100).height(100).pad(10);
+        table.add(recruitButton).expand().bottom().left().width(100).height(100).pad(10);
+        table.add(selectionSliderLabel).expand().bottom().width(100).height(100).pad(10);
+        table.add(selectionSlider).expand().bottom().height(100).pad(10);
+        table.add(endTurnButton).expand().bottom().right().width(100).height(100).pad(10);
     }
 
 
-    public void showAttackButton() {
-        attackButton.setVisible(true);
-    }
+    public void showAttackButton() {attackButton.setVisible(true);}
 
     public void hideAttackButton() {attackButton.setVisible(false);}
 
-    public void showArmySelection() {
-        armySlider.setVisible(true);
-        armySliderLabel.setVisible(true);
+    public void showRecruitButton() {recruitButton.setVisible(true);}
+
+    public void hideRecruitButton() {recruitButton.setVisible(false);}
+
+    public void showSelectionSlider() {
+        selectionSlider.setVisible(true);
+        selectionSliderLabel.setVisible(true);
     }
 
-    public void hideArmySelection() {
-        armySlider.setVisible(false);
-        armySliderLabel.setVisible(false);
+    public void hideSelectionSlider() {
+        selectionSlider.setVisible(false);
+        selectionSliderLabel.setVisible(false);
     }
 
-    public int getArmySliderValue() {
-        return (int) armySlider.getValue();
+    public int getSelectionSliderValue() {
+        return (int) selectionSlider.getValue();
     }
 
-    public void setArmySliderMax(int max) {
-        armySlider.setRange(0f, (float) max);
+    public void setSelectionSliderMax(int max) {
+        selectionSlider.setRange(0f, (float) max);
+    }
+
+    public void showProvinceInfoArea() {
+        provinceInfoArea.setVisible(true);
+    }
+    public void hideProvinceInfoArea() {
+        provinceInfoArea.setVisible(false);
+    }
+
+    public void updateProvinceInfoArea(String owner, int armySize, int population) {
+        provinceInfoArea.setText("Province info:\n\n");
+        provinceInfoArea.appendText("Nation: " + owner + "\n");
+        provinceInfoArea.appendText("Army size: " + armySize + "\n");
+        provinceInfoArea.appendText("Population: " + population + "\n");
     }
 }

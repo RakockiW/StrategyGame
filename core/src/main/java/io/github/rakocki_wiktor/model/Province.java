@@ -9,21 +9,22 @@ import java.util.ArrayList;
 public class Province {
 
     float[] vertices;
-    int armySize;
+    int armySize, population;
     boolean hovered;
     boolean selected;
     boolean attacked;
     int type;
-    Player owner;
+    Nation owner;
     Color color;
     ArrayList<Province> neighbours;
 
-    public Province(float[] vertices, int type, int armySize, Player owner) {
+    public Province(float[] vertices, int type, int armySize, int population) {
         this.vertices = vertices;
         this.armySize = armySize;
+        this.population = population;
         this.type = type;
         this.hovered = false;
-        this.owner = owner;
+        this.owner = new Nation();
         this.color = owner.getColor();
         this.neighbours = new ArrayList<>();
     }
@@ -89,11 +90,11 @@ public class Province {
         this.type = type;
     }
 
-    public Player getOwner() {
+    public Nation getOwner() {
         return owner;
     }
 
-    public void setOwner(Player owner) {
+    public void setOwner(Nation owner) {
         this.owner = owner;
         this.color = owner.getColor();
     }
@@ -120,5 +121,13 @@ public class Province {
 
     public void addNeighbour(Province province) {
         neighbours.add(province);
+    }
+
+    public int getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(int population) {
+        this.population = population;
     }
 }

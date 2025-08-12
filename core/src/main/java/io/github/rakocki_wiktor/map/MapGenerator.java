@@ -1,8 +1,8 @@
-package io.github.rakocki_wiktor.utils;
+package io.github.rakocki_wiktor.map;
 
 
-import io.github.rakocki_wiktor.model.AIPlayer;
-import io.github.rakocki_wiktor.model.Player;
+import io.github.rakocki_wiktor.model.AINation;
+import io.github.rakocki_wiktor.model.Nation;
 import io.github.rakocki_wiktor.model.Province;
 import io.github.rakocki_wiktor.render.Vertex;
 
@@ -63,14 +63,10 @@ public class MapGenerator {
                     vertices[i*2+1] = provinceVertices[i].getY();
                 }
                 int armySize = random.nextInt(100);
-                Player player;
-                if (random.nextInt(3) > 1) {
-                    player = new Player();
-                }
-                else {
-                    player = new AIPlayer();
-                }
-                Province province = new Province(vertices, 1, armySize, player );
+
+                int population = random.nextInt(1000);
+
+                Province province = new Province(vertices, 1, armySize, population);
                 provinceGrid[x][y] = province;
                 provinces.add(province);
             }
