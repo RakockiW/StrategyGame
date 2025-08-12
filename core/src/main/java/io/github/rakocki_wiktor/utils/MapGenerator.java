@@ -43,6 +43,8 @@ public class MapGenerator {
             }
         }
 
+        Province[][] provinceGrid = new Province[widthInTiles][heightInTiles];
+
         for (int x = 0; x < widthInTiles; x++) {
             for (int y = 0; y < heightInTiles; y++) {
                 Vertex[] provinceVertices = new Vertex[8];
@@ -69,8 +71,19 @@ public class MapGenerator {
                     player = new AIPlayer();
                 }
                 Province province = new Province(vertices, 1, armySize, player );
+                provinceGrid[x][y] = province;
                 provinces.add(province);
+            }
+        }
 
+        for (int x = 0; x < widthInTiles; x++) {
+            for (int y = 0; y<heightInTiles; y++) {
+                Province current = provinceGrid[x][y];
+
+                if (y < heightInTiles - 1) current.addNeighbour(provinceGrid[x][y+1]);
+                if (y > 0) current.addNeighbour(provinceGrid[x][y-1]);
+                if (x > 0) current.addNeighbour(provinceGrid[x-1][y]);
+                if (x < widthInTiles - 1) current.addNeighbour(provinceGrid[x+1][y]);
             }
         }
         return provinces;

@@ -4,6 +4,8 @@ package io.github.rakocki_wiktor.model;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;
 
+import java.util.ArrayList;
+
 public class Province {
 
     float[] vertices;
@@ -14,6 +16,7 @@ public class Province {
     int type;
     Player owner;
     Color color;
+    ArrayList<Province> neighbours;
 
     public Province(float[] vertices, int type, int armySize, Player owner) {
         this.vertices = vertices;
@@ -22,6 +25,7 @@ public class Province {
         this.hovered = false;
         this.owner = owner;
         this.color = owner.getColor();
+        this.neighbours = new ArrayList<>();
     }
 
     public boolean contains(float px, float py) {
@@ -108,5 +112,13 @@ public class Province {
 
     public boolean isAttacked() {
         return attacked;
+    }
+
+    public ArrayList<Province> getNeighbours() {
+        return neighbours;
+    }
+
+    public void addNeighbour(Province province) {
+        neighbours.add(province);
     }
 }

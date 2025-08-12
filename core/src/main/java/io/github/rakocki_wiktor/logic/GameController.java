@@ -38,7 +38,7 @@ public class GameController {
             selectedProvince.setSelected(false);
         }
 
-        if (attacking) {
+        if (attacking && selectedProvince.getNeighbours().contains(clickedProvince)) {
             int armySize = uiEventListener.getArmySliderValue();
             selectedProvince.setArmySize(selectedProvince.getArmySize() - armySize);
             actionsManager.addAction(new AttackAction(selectedProvince, clickedProvince, armySize));
@@ -46,6 +46,8 @@ public class GameController {
             attacking = false;
             uiEventListener.hideArmySelection();
         } else {
+            uiEventListener.hideArmySelection();
+            attacking = false;
             selectedProvince = clickedProvince;
             clickedProvince.setSelected(true);
             uiEventListener.showAttackButton();
