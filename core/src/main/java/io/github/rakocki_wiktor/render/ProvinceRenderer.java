@@ -35,7 +35,7 @@ public class ProvinceRenderer {
             if (province.isHovered()) {
                 shape.setColor(Color.GREEN);
             } else {
-                if (province.getType() == 1) shape.setColor(province.getOwner().getColor());
+                if (province.getType() == 1) shape.setColor(province.getColor());
                 else shape.setColor(Color.BLUE);
             }
 

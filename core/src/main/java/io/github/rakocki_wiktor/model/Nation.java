@@ -61,5 +61,9 @@ public class Nation {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getProvincesAmount() {
+        return ownedProvinces.size();
+    }
 }
 

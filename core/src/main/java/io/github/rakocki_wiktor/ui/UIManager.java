@@ -12,37 +12,55 @@ import io.github.rakocki_wiktor.logic.GameController;
 public class UIManager implements UIEventListener {
 
     private Stage stage;
-    private Table table;
+    private Table infoTable, buttonsTable;
     private UIFactory uiFactory;
-    private TextButton attackButton, endTurnButton, recruitButton;
+    private TextButton attackButton, endTurnButton, recruitButton, pickButton;
     private Slider selectionSlider;
     private Label selectionSliderLabel;
-    private TextArea provinceInfoArea;
+    private TextArea provinceInfoArea, nationInfoArea;
     private GameController gameController;
 
     public UIManager(Stage stage, GameController gameController) {
         this.stage = stage;
         this.gameController = gameController;
-        this.table = new Table();
+        this.infoTable = new Table();
+        this.buttonsTable = new Table();
+        buttonsTable.setVisible(false);
 
-        uiFactory = new UIFactory(stage, table, gameController);
+        uiFactory = new UIFactory(stage, infoTable, buttonsTable, gameController);
         attackButton = uiFactory.createAttackButton();
         recruitButton = uiFactory.createRecruitButton();
         endTurnButton = uiFactory.createEndTurnButton();
         selectionSliderLabel = uiFactory.createSelectionSliderLabel();
         selectionSlider = uiFactory.createSelectionSlider(selectionSliderLabel);
         provinceInfoArea = uiFactory.createProvinceInfoArea();
+        nationInfoArea = uiFactory.createNationInfoArea();
+        pickButton = uiFactory.createPickButton();
 
-        table.top().left();
-        table.add(provinceInfoArea).expand().top().left().width(300).height(300).pad(10);
-        table.row();
-        table.add(attackButton).expand().bottom().left().width(100).height(100).pad(10);
-        table.add(recruitButton).expand().bottom().left().width(100).height(100).pad(10);
-        table.add(selectionSliderLabel).expand().bottom().width(100).height(100).pad(10);
-        table.add(selectionSlider).expand().bottom().height(100).pad(10);
-        table.add(endTurnButton).expand().bottom().right().width(100).height(100).pad(10);
+        infoTable.setVisible(false);
+        buttonsTable.setVisible(false);
+
+
+        infoTable.add(provinceInfoArea).expand().top().left().width(300).height(300).pad(10);
+        infoTable.add().expandX();
+        infoTable.add(nationInfoArea).expand().top().right().width(300).height(300).pad(10);
+
+        buttonsTable.row();
+        buttonsTable.add().expandY();
+        buttonsTable.add().expandX();
+        buttonsTable.add(pickButton).expand().bottom().center().width(500).height(100).pad(10);
+        buttonsTable.row();
+        buttonsTable.add(attackButton).expand().bottom().left().width(100).height(100).pad(10);
+        buttonsTable.add(recruitButton).expand().bottom().left().width(100).height(100).pad(10);
+        buttonsTable.add(selectionSliderLabel).expand().bottom().width(100).height(100).pad(10);
+        buttonsTable.add(selectionSlider).expand().bottom().height(100).pad(10);
+        buttonsTable.add(endTurnButton).expand().bottom().right().width(100).height(100).pad(10);
+
     }
 
+    public void showMainGameTable() {infoTable.setVisible(true); buttonsTable.setVisible(true);}
+
+    public void showEndTurnButton() {endTurnButton.setVisible(true);}
 
     public void showAttackButton() {attackButton.setVisible(true);}
 
@@ -82,5 +100,20 @@ public class UIManager implements UIEventListener {
         provinceInfoArea.appendText("Nation: " + owner + "\n");
         provinceInfoArea.appendText("Army size: " + armySize + "\n");
         provinceInfoArea.appendText("Population: " + population + "\n");
+    }
+
+    public void updateNationInfoArea(String name, int goldAmount, int provincesAmount) {
+        nationInfoArea.setText("Nation info: \n\n");
+        nationInfoArea.appendText("Name: " + name + "\n");
+        nationInfoArea.appendText("Gold: " + goldAmount + "\n");
+        nationInfoArea.appendText("Controlled provinces: " + provincesAmount + '\n');
+    }
+
+    public void showPickButton() {
+        pickButton.setVisible(true);
+    }
+
+    public void hidePickButton() {
+        pickButton.setVisible(false);
     }
 }

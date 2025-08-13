@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.rakocki_wiktor.logic.GameController;
 import io.github.rakocki_wiktor.map.MapPopulator;
 import io.github.rakocki_wiktor.model.Nation;
+import io.github.rakocki_wiktor.model.Player;
 import io.github.rakocki_wiktor.model.Province;
 import io.github.rakocki_wiktor.render.GameRenderer;
 import io.github.rakocki_wiktor.ui.UIManager;
@@ -43,8 +44,9 @@ public class StrategyGame extends ApplicationAdapter {
         provinces = mapGenerator.generateProvinces();
         mapPopulator = new MapPopulator(provinces);
         nations = mapPopulator.populate();
+        Player player = new Player();
 
-        GameController gameController = new GameController();
+        GameController gameController = new GameController(player);
         inputHandler = new InputHandler(provinces, camera, gameController);
         uiManager = new UIManager(stage, gameController);
         gameController.setUiEventListener(uiManager);

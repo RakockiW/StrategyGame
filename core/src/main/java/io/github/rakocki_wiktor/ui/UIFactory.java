@@ -12,17 +12,17 @@ import io.github.rakocki_wiktor.logic.GameController;
 
 public class UIFactory {
 
-    private Table table;
     private Skin skin;
     private GameController gameController;
 
-    public UIFactory(Stage stage, Table table, GameController gameController) {
+    public UIFactory(Stage stage, Table infoTable, Table buttonsTable, GameController gameController) {
         this.skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         this.gameController = gameController;
-        this.table = table;
 
-        table.setFillParent(true);
-        stage.addActor(table);
+        infoTable.setFillParent(true);
+        buttonsTable.setFillParent(true);
+        stage.addActor(infoTable);
+        stage.addActor(buttonsTable);
     }
 
     public TextButton createAttackButton() {
@@ -62,6 +62,7 @@ public class UIFactory {
             }
         });
 
+        endTurnButton.setVisible(false);
         return endTurnButton;
     }
 
@@ -92,6 +93,23 @@ public class UIFactory {
         provinceInfoArea.setVisible(false);
 
         return provinceInfoArea;
+    }
+
+    public TextArea createNationInfoArea() {
+        return new TextArea("Nation Info\n", skin);
+    }
+
+    public TextButton createPickButton() {
+        TextButton pickButton = new TextButton("Pick a nation", skin);
+        pickButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                gameController.onPickButtonClick();
+            }
+        });
+
+        pickButton.setVisible(true);
+
+        return pickButton;
     }
 
 }

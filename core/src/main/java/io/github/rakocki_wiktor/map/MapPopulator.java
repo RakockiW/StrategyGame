@@ -31,8 +31,10 @@ public class MapPopulator {
             nation.setColor(color);
             nation.setName(name);
             for (Province province : ownedProvinces) {
-                province.setOwner(nation);
-                nation.addProvince(province);
+                if (province.getNation() == null) {
+                    province.setOwner(nation);
+                    nation.addProvince(province);
+                }
             }
 
         }
@@ -72,7 +74,7 @@ public class MapPopulator {
 
     private String getRandomName() {
         Random random = new Random();
-        String[] syllabes = {"an", "ban", "tor", "xor", "mat", "bash", "lin", "xia", "zul", "bur", "ol"};
+        String[] syllabes = {"an", "ban", "tor", "ror", "mat", "bash", "lin", "xia", "zul", "bur", "ol", "tar", "ind"};
         String[] endings = {"land", "topia", "stan", "nia", "ria", "an"};
         StringBuilder name = new StringBuilder();
 

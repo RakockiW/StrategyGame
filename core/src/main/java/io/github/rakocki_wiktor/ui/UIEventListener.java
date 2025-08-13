@@ -1,6 +1,8 @@
 package io.github.rakocki_wiktor.ui;
 
 public interface UIEventListener {
+    void showMainGameTable();
+    void showEndTurnButton();
     void showAttackButton();
     void hideAttackButton();
     void showRecruitButton();
@@ -12,4 +14,7 @@ public interface UIEventListener {
     void showProvinceInfoArea();
     void hideProvinceInfoArea();
     void updateProvinceInfoArea(String owner, int armySize, int population);
+    void updateNationInfoArea(String name, int goldAmount, int provincesAmount);
+    void showPickButton();
+    void hidePickButton();
 }

@@ -15,7 +15,6 @@ public class Province {
     boolean attacked;
     int type;
     Nation owner;
-    Color color;
     ArrayList<Province> neighbours;
 
     public Province(float[] vertices, int type, int armySize, int population) {
@@ -24,8 +23,6 @@ public class Province {
         this.population = population;
         this.type = type;
         this.hovered = false;
-        this.owner = new Nation();
-        this.color = owner.getColor();
         this.neighbours = new ArrayList<>();
     }
 
@@ -90,22 +87,18 @@ public class Province {
         this.type = type;
     }
 
-    public Nation getOwner() {
+    public Nation getNation() {
         return owner;
     }
 
     public void setOwner(Nation owner) {
         this.owner = owner;
-        this.color = owner.getColor();
     }
 
     public Color getColor() {
-        return color;
+        return (owner != null) ? owner.getColor() : Color.OLIVE;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
 
     public void setAttacked(boolean attacked) {
         this.attacked = attacked;
