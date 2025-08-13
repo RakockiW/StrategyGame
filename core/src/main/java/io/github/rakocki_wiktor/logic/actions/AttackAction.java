@@ -14,7 +14,7 @@ public class AttackAction implements Action {
 
     public void win(Province winner, Province loser) {
         loser.setArmySize(attackingArmySize - loser.getArmySize());
-        loser.setOwner(winner.getNation());
+        loser.setNation(winner.getNation());
         winner.getNation().addProvince(loser);
         loser.setAttacked(false);
     }

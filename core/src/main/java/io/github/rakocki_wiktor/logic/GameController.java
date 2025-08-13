@@ -1,11 +1,16 @@
 package io.github.rakocki_wiktor.logic;
 
+import com.badlogic.gdx.Game;
 import io.github.rakocki_wiktor.logic.actions.ActionsManager;
 import io.github.rakocki_wiktor.logic.actions.AttackAction;
 import io.github.rakocki_wiktor.logic.actions.RecruitAction;
+import io.github.rakocki_wiktor.model.GameStateData;
+import io.github.rakocki_wiktor.model.Nation;
 import io.github.rakocki_wiktor.model.Player;
 import io.github.rakocki_wiktor.model.Province;
 import io.github.rakocki_wiktor.ui.UIEventListener;
+
+import java.util.ArrayList;
 
 public class GameController {
 
@@ -14,10 +19,12 @@ public class GameController {
     private Province selectedProvince;
     private UIEventListener uiEventListener;
     private GameState state = GameState.PICKING_NATION;
+    private GameTurnProcessor turnProcessor;
 
-    public GameController(Player player) {
+    public GameController(GameStateData gameStateData) {
         actionsManager = new ActionsManager();
-        this.player = player;
+        this.player = gameStateData.getPlayer();
+        this.turnProcessor = new GameTurnProcessor(gameStateData);
     }
 
     public void setUiEventListener(UIEventListener uiEventListener) {
@@ -40,14 +47,14 @@ public class GameController {
         switch (state) {
             case IDLE -> {
                 uiEventListener.showSelectionSlider();
-                uiEventListener.setSelectionSliderMax(selectedProvince.getPopulation());
+                uiEventListener.setSelectionSliderMax(selectedProvince.getRecruitablePopulation());
                 state = GameState.RECRUITING;
             }
 
             case RECRUITING -> {
                 int recruitedPopulation = uiEventListener.getSelectionSliderValue();
                 if (selectedProvince != null) {
-                    uiEventListener.setSelectionSliderMax(selectedProvince.getPopulation());
+                    uiEventListener.setSelectionSliderMax(selectedProvince.getRecruitablePopulation());
                     selectedProvince.setPopulation(selectedProvince.getPopulation() - recruitedPopulation);
                 }
                 actionsManager.addAction(new RecruitAction(selectedProvince, recruitedPopulation));
@@ -63,7 +70,6 @@ public class GameController {
         if (selectedProvince != null) {
             selectedProvince.setSelected(false);
         }
-
 
         switch (state) {
             case ATTACKING -> {
@@ -107,18 +113,11 @@ public class GameController {
                 selectedProvince.setSelected(true);
                 uiEventListener.showPickButton();
                 uiEventListener.showMainGameTable();
-                uiEventListener.updateProvinceInfoArea(
-                    clickedProvince.getNation().getName(),
-                    clickedProvince.getArmySize(),
-                    clickedProvince.getPopulation());
-                uiEventListener.updateNationInfoArea(
-                    selectedProvince.getNation().getName(),
-                    selectedProvince.getNation().getGold(),
-                    selectedProvince.getNation().getProvincesAmount()
-                );
                 uiEventListener.showProvinceInfoArea();
             }
         }
+
+        updateInfoAreas();
 
     }
 
@@ -133,8 +132,23 @@ public class GameController {
 
     }
 
+    private void updateInfoAreas() {
+        uiEventListener.updateProvinceInfoArea(
+            selectedProvince.getNation().getName(),
+            selectedProvince.getArmySize(),
+            selectedProvince.getPopulation());
+        uiEventListener.updateNationInfoArea(
+            selectedProvince.getNation().getName(),
+            selectedProvince.getNation().getGold(),
+            selectedProvince.getNation().getProvincesAmount()
+        );
+    }
+
     public void endTurn() {
+        turnProcessor.processTurn();
         actionsManager.executeActions();
         actionsManager.removeAllActions();
+        updateInfoAreas();
+
     }
 }

@@ -11,20 +11,13 @@ import java.util.Random;
 
 public class MapGenerator {
 
-    private final int TILESIZE = 100;
-    private final int MAP_HEIGHT, MAP_WIDTH;
 
-    public MapGenerator(int mapHeight, int mapWidth) {
-        MAP_HEIGHT = mapHeight;
-        MAP_WIDTH = mapWidth;
-    }
-
-
-    public ArrayList<Province> generateProvinces() {
+    public static ArrayList<Province> generateProvinces(int mapHeight, int mapWidth) {
         Random random = new Random();
         ArrayList<Province> provinces = new ArrayList<>();
-        int heightInTiles = MAP_HEIGHT / TILESIZE;
-        int widthInTiles = MAP_WIDTH / TILESIZE;
+        int TILESIZE = 100;
+        int heightInTiles = mapHeight / TILESIZE;
+        int widthInTiles = mapWidth / TILESIZE;
         Vertex[][] verticesGrid = new Vertex[2 * widthInTiles + 1][2 * heightInTiles + 1];
 
 

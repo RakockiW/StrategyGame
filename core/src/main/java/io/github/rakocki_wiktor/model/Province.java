@@ -14,7 +14,8 @@ public class Province {
     boolean selected;
     boolean attacked;
     int type;
-    Nation owner;
+    int birthrate;
+    Nation nation;
     ArrayList<Province> neighbours;
 
     public Province(float[] vertices, int type, int armySize, int population) {
@@ -24,6 +25,7 @@ public class Province {
         this.type = type;
         this.hovered = false;
         this.neighbours = new ArrayList<>();
+        this.birthrate = 1;
     }
 
     public boolean contains(float px, float py) {
@@ -88,15 +90,15 @@ public class Province {
     }
 
     public Nation getNation() {
-        return owner;
+        return nation;
     }
 
-    public void setOwner(Nation owner) {
-        this.owner = owner;
+    public void setNation(Nation nation) {
+        this.nation = nation;
     }
 
     public Color getColor() {
-        return (owner != null) ? owner.getColor() : Color.OLIVE;
+        return (nation != null) ? nation.getColor() : Color.OLIVE;
     }
 
 
@@ -120,7 +122,19 @@ public class Province {
         return population;
     }
 
+    public int getRecruitablePopulation() {
+        return Math.min(getPopulation(), nation.getGold());
+    }
+
     public void setPopulation(int population) {
         this.population = population;
+    }
+
+    public int getBirthRate() {
+        return birthrate;
+    }
+
+    public void setBirthrate(int value) {
+        this.birthrate = value;
     }
 }

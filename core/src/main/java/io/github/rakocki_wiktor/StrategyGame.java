@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.rakocki_wiktor.logic.GameController;
 import io.github.rakocki_wiktor.map.MapPopulator;
+import io.github.rakocki_wiktor.model.GameStateData;
 import io.github.rakocki_wiktor.model.Nation;
 import io.github.rakocki_wiktor.model.Player;
 import io.github.rakocki_wiktor.model.Province;
@@ -40,13 +41,13 @@ public class StrategyGame extends ApplicationAdapter {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Stage stage = new Stage(new ScreenViewport());
         renderer = new GameRenderer(camera, stage);
-        mapGenerator = new MapGenerator(MAP_WIDTH, MAP_HEIGHT);
-        provinces = mapGenerator.generateProvinces();
-        mapPopulator = new MapPopulator(provinces);
-        nations = mapPopulator.populate();
-        Player player = new Player();
 
-        GameController gameController = new GameController(player);
+        provinces = MapGenerator.generateProvinces(MAP_HEIGHT, MAP_WIDTH);
+        nations = MapPopulator.populate(provinces);
+        Player player = new Player();
+        GameStateData gameStateData = new GameStateData(provinces, nations, player);
+
+        GameController gameController = new GameController(gameStateData);
         inputHandler = new InputHandler(provinces, camera, gameController);
         uiManager = new UIManager(stage, gameController);
         gameController.setUiEventListener(uiManager);

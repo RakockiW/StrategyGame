@@ -11,38 +11,43 @@ import java.util.Random;
 
 public class MapPopulator {
 
-    private final ArrayList<Province> provinces;
-    private ArrayList<Nation> nations;
-
-    public MapPopulator(ArrayList<Province> provinces) {
-        this.provinces = provinces;
-    }
-
-    public ArrayList<Nation> populate() {
+    public static ArrayList<Nation> populate(ArrayList<Province> provinces) {
+        ArrayList<Nation> nations = new ArrayList<>();
         Random random = new Random();
 
         int nationsAmount = random.nextInt(25 - 10) + 10;
 
         for (int i = 0; i < nationsAmount; i++) {
-            Nation nation = new Nation();
             Color color = getRandomColor();
             String name = getRandomName();
-            ArrayList<Province> ownedProvinces = getRandomProvinces();
+            Nation nation = new Nation();
+
+            ArrayList<Province> ownedProvinces = getRandomProvinces(provinces);
             nation.setColor(color);
             nation.setName(name);
             for (Province province : ownedProvinces) {
                 if (province.getNation() == null) {
-                    province.setOwner(nation);
+                    province.setNation(nation);
                     nation.addProvince(province);
+                    nation.addGold(province.getPopulation());
                 }
             }
-
         }
 
+        Nation wild = new Nation();
+        wild.setName("Wild");
+        wild.setColor(Color.OLIVE);
+        nations.add(wild);
+
+        for (Province province : provinces) {
+            if (province.getNation() == null) {
+                province.setNation(wild);
+            }
+        }
         return nations;
     }
 
-    private Color getRandomColor() {
+    private static Color getRandomColor() {
         ObjectMap<String, Color> colors = Colors.getColors();
         int size = colors.size;
 
@@ -58,7 +63,7 @@ public class MapPopulator {
         return null;
     }
 
-    private ArrayList<Province> getRandomProvinces() {
+    private static ArrayList<Province> getRandomProvinces(ArrayList<Province> provinces) {
 
         ArrayList<Province> randomProvinces = new ArrayList<>();
 
@@ -72,7 +77,7 @@ public class MapPopulator {
         return randomProvinces;
     }
 
-    private String getRandomName() {
+    private static String getRandomName() {
         Random random = new Random();
         String[] syllabes = {"an", "ban", "tor", "ror", "mat", "bash", "lin", "xia", "zul", "bur", "ol", "tar", "ind"};
         String[] endings = {"land", "topia", "stan", "nia", "ria", "an"};

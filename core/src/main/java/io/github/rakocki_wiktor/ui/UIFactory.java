@@ -67,7 +67,7 @@ public class UIFactory {
     }
 
     public Label createSelectionSliderLabel() {
-        Label selectionSliderLabel = new Label("0", skin);
+        Label selectionSliderLabel = new Label("Troops: ", skin);
         selectionSliderLabel.setVisible(false);
 
         return selectionSliderLabel;
