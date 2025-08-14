@@ -30,8 +30,8 @@ public class GameTurnProcessor {
 
     public void growPopulation() {
         for (Province province : provinces) {
-            int growth = province.getPopulation() * province.getBirthRate() / 100;
-            province.setPopulation(province.getPopulation() + growth);
+            int growth = (province.getPopulation() * province.getBirthRate()) / 100;
+            province.setPopulation(province.getPopulation() + growth + 1);
         }
     }
 }

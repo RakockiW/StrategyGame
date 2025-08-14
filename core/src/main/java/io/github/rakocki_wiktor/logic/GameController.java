@@ -3,6 +3,7 @@ package io.github.rakocki_wiktor.logic;
 import com.badlogic.gdx.Game;
 import io.github.rakocki_wiktor.logic.actions.ActionsManager;
 import io.github.rakocki_wiktor.logic.actions.AttackAction;
+import io.github.rakocki_wiktor.logic.actions.MoveUnitsAction;
 import io.github.rakocki_wiktor.logic.actions.RecruitAction;
 import io.github.rakocki_wiktor.model.GameStateData;
 import io.github.rakocki_wiktor.model.Nation;
@@ -76,8 +77,13 @@ public class GameController {
                 if (selectedProvince.getNeighbours().contains(clickedProvince)) {
                     int armySize = uiEventListener.getSelectionSliderValue();
                     selectedProvince.setArmySize(selectedProvince.getArmySize() - armySize);
-                    actionsManager.addAction(new AttackAction(selectedProvince, clickedProvince, armySize));
-                    clickedProvince.setAttacked(true);
+
+                    if (clickedProvince.getNation() == player.getNation()) {
+                        actionsManager.addAction(new MoveUnitsAction(clickedProvince, armySize));
+                    } else {
+                        actionsManager.addAction(new AttackAction(selectedProvince, clickedProvince, armySize));
+                        clickedProvince.setAttacked(true);
+                    }
                     uiEventListener.hideSelectionSlider();
                     state = GameState.IDLE;
                 }

@@ -39,7 +39,6 @@ public class AttackAction implements Action {
             winner = provinceAttacked;
             loser = provinceAttacking;
             lose(winner, loser);
-
         }
     }
 }
