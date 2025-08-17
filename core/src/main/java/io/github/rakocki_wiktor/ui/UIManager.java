@@ -102,11 +102,18 @@ public class UIManager implements UIEventListener {
         provinceInfoArea.appendText("Population: " + population + "\n");
     }
 
-    public void updateNationInfoArea(String name, int goldAmount, int provincesAmount) {
+    public void updateNationInfoArea(String name,
+                                     int goldAmount,
+                                     int provincesAmount,
+                                     int actionPoints,
+                                     int totalArmySize)
+    {
         nationInfoArea.setText("Nation info: \n\n");
         nationInfoArea.appendText("Name: " + name + "\n");
         nationInfoArea.appendText("Gold: " + goldAmount + "\n");
         nationInfoArea.appendText("Controlled provinces: " + provincesAmount + '\n');
+        nationInfoArea.appendText("Action points: " + actionPoints + '\n');
+        nationInfoArea.appendText("Total army size: " + totalArmySize + '\n');
     }
 
     public void showPickButton() {

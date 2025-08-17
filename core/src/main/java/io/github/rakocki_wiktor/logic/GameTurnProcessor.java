@@ -18,6 +18,7 @@ public class GameTurnProcessor {
 
     public void processTurn() {
         addNationProfits();
+        addActionPoints();
         growPopulation();
     }
 
@@ -25,6 +26,14 @@ public class GameTurnProcessor {
         for (Province province : provinces) {
             int profit = province.getPopulation() / 2;
             province.getNation().addGold(profit);
+        }
+    }
+
+    public void addActionPoints() {
+        for (Nation nation : nations) {
+            //int pointsAmount = nation.getProvincesAmount();
+            int pointsAmount = 3;
+            nation.addActionPoints(pointsAmount);
         }
     }
 

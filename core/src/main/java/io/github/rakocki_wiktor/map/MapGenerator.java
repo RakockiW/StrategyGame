@@ -1,8 +1,6 @@
 package io.github.rakocki_wiktor.map;
 
 
-import io.github.rakocki_wiktor.model.AINation;
-import io.github.rakocki_wiktor.model.Nation;
 import io.github.rakocki_wiktor.model.Province;
 import io.github.rakocki_wiktor.render.Vertex;
 

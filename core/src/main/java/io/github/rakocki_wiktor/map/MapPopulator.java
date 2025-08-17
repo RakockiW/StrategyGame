@@ -23,6 +23,7 @@ public class MapPopulator {
             Nation nation = new Nation();
 
             ArrayList<Province> ownedProvinces = getRandomProvinces(provinces);
+            nations.add(nation);
             nation.setColor(color);
             nation.setName(name);
             for (Province province : ownedProvinces) {
@@ -30,6 +31,7 @@ public class MapPopulator {
                     province.setNation(nation);
                     nation.addProvince(province);
                     nation.addGold(province.getPopulation());
+                    nation.addActionPoints(nation.getProvincesAmount());
                 }
             }
         }
@@ -48,19 +50,13 @@ public class MapPopulator {
     }
 
     private static Color getRandomColor() {
-        ObjectMap<String, Color> colors = Colors.getColors();
-        int size = colors.size;
+        Random random = new Random();
 
-        int index = new Random().nextInt(size);
-        int i = 0;
+        float r = random.nextFloat();
+        float g = random.nextFloat();
+        float b = random.nextFloat();
 
-        for (ObjectMap.Entry<String, Color> entry : colors) {
-            if (i == index) {
-                return entry.value;
-            }
-            i++;
-        }
-        return null;
+        return new Color(r, g, b, 1f);
     }
 
     private static ArrayList<Province> getRandomProvinces(ArrayList<Province> provinces) {

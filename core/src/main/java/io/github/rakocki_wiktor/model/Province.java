@@ -137,4 +137,24 @@ public class Province {
     public void setBirthrate(int value) {
         this.birthrate = value;
     }
+
+    public boolean isBorderProvince() {
+        for (Province province : neighbours) {
+            if (province.getNation() != getNation()) {
+                return true;
+            }
+        }
+        return  false;
+    }
+
+    public ArrayList<Province> getHostileProvinces() {
+        ArrayList<Province> hostileProvinces = new ArrayList<>();
+        for (Province province : neighbours) {
+            if (province.getNation() != this.getNation()) {
+                hostileProvinces.add(province);
+            }
+        }
+
+        return hostileProvinces;
+    }
 }

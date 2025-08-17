@@ -14,7 +14,7 @@ public interface UIEventListener {
     void showProvinceInfoArea();
     void hideProvinceInfoArea();
     void updateProvinceInfoArea(String owner, int armySize, int population);
-    void updateNationInfoArea(String name, int goldAmount, int provincesAmount);
+    void updateNationInfoArea(String name, int goldAmount, int provincesAmount, int actionPoints, int totalArmySize);
     void showPickButton();
     void hidePickButton();
 }

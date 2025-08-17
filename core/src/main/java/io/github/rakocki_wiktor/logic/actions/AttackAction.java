@@ -3,13 +3,24 @@ package io.github.rakocki_wiktor.logic.actions;
 import io.github.rakocki_wiktor.model.Province;
 
 public class AttackAction implements Action {
-    private Province provinceAttacking, provinceAttacked;
+
+
+
+    private final Province provinceAttacking, provinceAttacked;
     private int attackingArmySize;
 
     public AttackAction(Province provinceAttacking, Province provinceAttacked, int attackingArmySize) {
         this.provinceAttacking = provinceAttacking;
         this.provinceAttacked = provinceAttacked;
         this.attackingArmySize = attackingArmySize;
+    }
+
+    public Province getProvinceAttacking() {
+        return provinceAttacking;
+    }
+
+    public Province getProvinceAttacked() {
+        return provinceAttacked;
     }
 
     public void win(Province winner, Province loser) {
@@ -22,6 +33,12 @@ public class AttackAction implements Action {
     public void lose(Province winner, Province loser) {
         winner.setArmySize(winner.getArmySize() - attackingArmySize);
         winner.setAttacked(false);
+    }
+
+    public boolean canExecute() {
+        return attackingArmySize <= provinceAttacking.getArmySize() &&
+            provinceAttacking.getNation().getGold() >= attackingArmySize &&
+            provinceAttacking.getNation().getActionPoints() > 0;
     }
 
     @Override
@@ -40,5 +57,16 @@ public class AttackAction implements Action {
             loser = provinceAttacking;
             lose(winner, loser);
         }
+
     }
+
+    public void preTurn() {
+        provinceAttacking.getNation().removeActionPoints(1);
+        provinceAttacking.setArmySize(provinceAttacking.getArmySize() - attackingArmySize);
+    }
+
+    public ActionType getType() {
+        return ActionType.ATTACK;
+    }
+
 }
