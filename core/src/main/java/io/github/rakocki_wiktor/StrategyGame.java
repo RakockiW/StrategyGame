@@ -33,7 +33,7 @@ public class StrategyGame extends ApplicationAdapter {
     ArrayList<Province> provinces;
     ArrayList<Nation> nations;
     public final int MAP_WIDTH = 5000;
-    public final int MAP_HEIGHT = 3000;
+    public final int MAP_HEIGHT = 5000;
 
     @Override
     public void create() {

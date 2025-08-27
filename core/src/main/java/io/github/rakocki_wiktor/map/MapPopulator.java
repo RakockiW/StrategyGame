@@ -1,8 +1,6 @@
 package io.github.rakocki_wiktor.map;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Colors;
-import com.badlogic.gdx.utils.ObjectMap;
 import io.github.rakocki_wiktor.model.Nation;
 import io.github.rakocki_wiktor.model.Province;
 
@@ -44,6 +42,14 @@ public class MapPopulator {
         for (Province province : provinces) {
             if (province.getNation() == null) {
                 province.setNation(wild);
+            }
+        }
+
+        for (Nation nation : nations) {
+            for (Nation otherNation : nations) {
+                if (nation != otherNation) {
+                    nation.setRelation(otherNation, 0);
+                }
             }
         }
         return nations;

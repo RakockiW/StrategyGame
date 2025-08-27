@@ -25,18 +25,18 @@ public class UIFactory {
         stage.addActor(buttonsTable);
     }
 
-    public TextButton createAttackButton() {
-        TextButton attackButton = new TextButton("Attack", skin);
+    public TextButton createMoveButton() {
+        TextButton moveButton = new TextButton("Move", skin);
 
-        attackButton.addListener(new ClickListener() {
+        moveButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                gameController.onAttackButtonClick();
+                gameController.onMoveButtonClick();
             }
         });
 
-        attackButton.setVisible(false);
+        moveButton.setVisible(false);
 
-        return attackButton;
+        return moveButton;
     }
 
     public TextButton createRecruitButton() {

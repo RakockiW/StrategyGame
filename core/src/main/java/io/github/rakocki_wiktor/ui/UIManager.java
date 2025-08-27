@@ -1,12 +1,7 @@
 package io.github.rakocki_wiktor.ui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import io.github.rakocki_wiktor.logic.GameController;
 
 public class UIManager implements UIEventListener {
@@ -14,7 +9,7 @@ public class UIManager implements UIEventListener {
     private Stage stage;
     private Table infoTable, buttonsTable;
     private UIFactory uiFactory;
-    private TextButton attackButton, endTurnButton, recruitButton, pickButton;
+    private TextButton moveButton, endTurnButton, recruitButton, pickButton;
     private Slider selectionSlider;
     private Label selectionSliderLabel;
     private TextArea provinceInfoArea, nationInfoArea;
@@ -28,7 +23,7 @@ public class UIManager implements UIEventListener {
         buttonsTable.setVisible(false);
 
         uiFactory = new UIFactory(stage, infoTable, buttonsTable, gameController);
-        attackButton = uiFactory.createAttackButton();
+        moveButton = uiFactory.createMoveButton();
         recruitButton = uiFactory.createRecruitButton();
         endTurnButton = uiFactory.createEndTurnButton();
         selectionSliderLabel = uiFactory.createSelectionSliderLabel();
@@ -50,7 +45,7 @@ public class UIManager implements UIEventListener {
         buttonsTable.add().expandX();
         buttonsTable.add(pickButton).expand().bottom().center().width(500).height(100).pad(10);
         buttonsTable.row();
-        buttonsTable.add(attackButton).expand().bottom().left().width(100).height(100).pad(10);
+        buttonsTable.add(moveButton).expand().bottom().left().width(100).height(100).pad(10);
         buttonsTable.add(recruitButton).expand().bottom().left().width(100).height(100).pad(10);
         buttonsTable.add(selectionSliderLabel).expand().bottom().width(100).height(100).pad(10);
         buttonsTable.add(selectionSlider).expand().bottom().height(100).pad(10);
@@ -62,9 +57,9 @@ public class UIManager implements UIEventListener {
 
     public void showEndTurnButton() {endTurnButton.setVisible(true);}
 
-    public void showAttackButton() {attackButton.setVisible(true);}
+    public void showMoveButton() {moveButton.setVisible(true);}
 
-    public void hideAttackButton() {attackButton.setVisible(false);}
+    public void hideMoveButton() {moveButton.setVisible(false);}
 
     public void showRecruitButton() {recruitButton.setVisible(true);}
 
@@ -114,6 +109,10 @@ public class UIManager implements UIEventListener {
         nationInfoArea.appendText("Controlled provinces: " + provincesAmount + '\n');
         nationInfoArea.appendText("Action points: " + actionPoints + '\n');
         nationInfoArea.appendText("Total army size: " + totalArmySize + '\n');
+    }
+
+    public void updateRelationInfo(int relation) {
+        nationInfoArea.appendText("Relation: " + relation + '\n');
     }
 
     public void showPickButton() {

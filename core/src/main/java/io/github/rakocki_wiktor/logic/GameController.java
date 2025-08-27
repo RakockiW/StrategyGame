@@ -31,15 +31,15 @@ public class GameController {
         this.uiEventListener = uiEventListener;
     }
 
-    public void onAttackButtonClick() {
-        state = GameState.ATTACKING;
+    public void onMoveButtonClick() {
+        state = GameState.MOVING;
 
         uiEventListener.showSelectionSlider();
         if (selectedProvince != null) {
             uiEventListener.setSelectionSliderMax(selectedProvince.getArmySize());
         }
 
-        uiEventListener.hideAttackButton();
+        uiEventListener.hideMoveButton();
         uiEventListener.hideRecruitButton();
     }
 
@@ -74,7 +74,7 @@ public class GameController {
         }
 
         switch (state) {
-            case ATTACKING -> {
+            case MOVING -> {
                 if (selectedProvince.getNeighbours().contains(clickedProvince)) {
                     int armySize = uiEventListener.getSelectionSliderValue();
 
@@ -100,10 +100,10 @@ public class GameController {
                 uiEventListener.showProvinceInfoArea();
                 updateInfoAreas();
                 if (selectedProvince.getNation() == player.getNation()) {
-                    uiEventListener.showAttackButton();
+                    uiEventListener.showMoveButton();
                     uiEventListener.showRecruitButton();
                 } else {
-                    uiEventListener.hideAttackButton();
+                    uiEventListener.hideMoveButton();
                     uiEventListener.hideRecruitButton();
                 }
             }
@@ -144,6 +144,8 @@ public class GameController {
             selectedProvince.getNation().getActionPoints(),
             selectedProvince.getNation().getTotalArmySize()
         );
+
+        if (player.getNation() != null && selectedProvince.getNation() != player.getNation()) uiEventListener.updateRelationInfo(player.getNation().getRelation(selectedProvince.getNation()));
     }
 
     public void endTurn() {

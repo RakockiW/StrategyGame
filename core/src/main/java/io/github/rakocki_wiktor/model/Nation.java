@@ -1,7 +1,6 @@
 package io.github.rakocki_wiktor.model;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Colors;
 
 import java.util.*;
 
@@ -12,11 +11,13 @@ public class Nation {
     int gold;
     int actionPoints;
     final UUID id;
+    Map<Nation, Integer> relations;
 
     public Nation() {
         ownedProvinces = new ArrayList<>();
         color = Color.OLIVE;
         id = UUID.randomUUID();
+        relations = new HashMap<>();
     }
 
     public Color getColor() {
@@ -84,6 +85,15 @@ public class Nation {
 
         return totalSize;
     }
+
+    public int getRelation(Nation nation) {
+        return relations.get(nation);
+    }
+
+    public void setRelation(Nation nation, int relation) {
+        relations.put(nation, relation);
+    }
+
 
     @Override
     public boolean equals(Object obj) {
