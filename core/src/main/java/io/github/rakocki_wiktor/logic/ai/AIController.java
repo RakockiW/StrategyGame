@@ -29,6 +29,7 @@ public class AIController {
         for (Nation nation : nations) {
 
             if (nation == gameStateData.getPlayer().getNation()) continue;
+            System.out.println(gameStateData.getPlayer().getNation().getId());
 
             ArrayList<Action> possibleActions = getPossibleActions(nation);
             List<Action> sortedActions = sortByPriority(possibleActions);

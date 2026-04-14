@@ -9,35 +9,48 @@ import java.util.Random;
 
 public class MapPopulator {
 
+    private static final Random RANDOM = new Random();
+
     public static ArrayList<Nation> populate(ArrayList<Province> provinces) {
         ArrayList<Nation> nations = new ArrayList<>();
-        Random random = new Random();
 
-        int nationsAmount = random.nextInt(25 - 10) + 10;
+        int nationsAmount = RANDOM.nextInt(25 - 10) + 10;
 
         for (int i = 0; i < nationsAmount; i++) {
-            Color color = getRandomColor();
-            String name = getRandomName();
-            Nation nation = new Nation();
-
-            ArrayList<Province> ownedProvinces = getRandomProvinces(provinces);
+            Nation nation = createRandomNation(provinces);
             nations.add(nation);
-            nation.setColor(color);
-            nation.setName(name);
-            for (Province province : ownedProvinces) {
-                if (province.getNation() == null) {
-                    province.setNation(nation);
-                    nation.addProvince(province);
-                    nation.addGold(province.getPopulation());
-                    nation.addActionPoints(nation.getProvincesAmount());
-                }
+        }
+
+        Nation wild = createWildNation(provinces);
+        nations.add(wild);
+
+        setRelationsBetweenNations(nations);
+
+        return nations;
+    }
+
+    private static Nation createRandomNation(ArrayList<Province> provinces) {
+        Nation nation = new Nation();
+        nation.setColor(getRandomColor());
+        nation.setName(getRandomName());
+
+        ArrayList<Province> ownedProvinces = getRandomProvinces(provinces);
+        for (Province province : ownedProvinces) {
+            if (province.getNation() == null) {
+                province.setNation(nation);
+                nation.addProvince(province);
+                nation.addGold(province.getPopulation());
+                nation.addActionPoints(nation.getProvincesAmount());
             }
         }
 
+        return nation;
+    }
+
+    private static Nation createWildNation(ArrayList<Province> provinces) {
         Nation wild = new Nation();
         wild.setName("Wild");
         wild.setColor(Color.OLIVE);
-        nations.add(wild);
 
         for (Province province : provinces) {
             if (province.getNation() == null) {
@@ -45,6 +58,10 @@ public class MapPopulator {
             }
         }
 
+        return wild;
+    }
+
+    private static void setRelationsBetweenNations(ArrayList<Nation> nations) {
         for (Nation nation : nations) {
             for (Nation otherNation : nations) {
                 if (nation != otherNation) {
@@ -52,47 +69,35 @@ public class MapPopulator {
                 }
             }
         }
-        return nations;
     }
 
     private static Color getRandomColor() {
-        Random random = new Random();
-
-        float r = random.nextFloat();
-        float g = random.nextFloat();
-        float b = random.nextFloat();
-
-        return new Color(r, g, b, 1f);
+        return new Color(RANDOM.nextFloat(), RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
     }
 
     private static ArrayList<Province> getRandomProvinces(ArrayList<Province> provinces) {
-
         ArrayList<Province> randomProvinces = new ArrayList<>();
 
-        //int neighboursAmount = new Random().nextInt(6);
-
-        Province rootProvince = provinces.get(new Random().nextInt(provinces.size()));
+        Province rootProvince = provinces.get(RANDOM.nextInt(provinces.size()));
         randomProvinces.add(rootProvince);
-
         randomProvinces.addAll(rootProvince.getNeighbours());
 
         return randomProvinces;
     }
 
     private static String getRandomName() {
-        Random random = new Random();
-        String[] syllabes = {"an", "ban", "tor", "ror", "mat", "bash", "lin", "xia", "zul", "bur", "ol", "tar", "ind"};
+        String[] syllables = {"an", "ban", "tor", "ror", "mat", "bash", "lin", "xia", "zul", "bur", "ol", "tar", "ind"};
         String[] endings = {"land", "topia", "stan", "nia", "ria", "an"};
+
         StringBuilder name = new StringBuilder();
+        int syllablesAmount = RANDOM.nextInt(3 - 1) + 1;
 
-        int syllabesAmount = random.nextInt(3-1) + 1;
-
-        for (int i = 0; i < syllabesAmount; i++) {
-            name.append(syllabes[random.nextInt(syllabes.length)]);
+        for (int i = 0; i < syllablesAmount; i++) {
+            name.append(syllables[RANDOM.nextInt(syllables.length)]);
         }
-        name.append(endings[random.nextInt(endings.length)]);
-        String stringName = name.toString();
-        stringName = name.substring(0, 1).toUpperCase() + stringName.substring(1);
-        return stringName;
+        name.append(endings[RANDOM.nextInt(endings.length)]);
+
+        // Ustawienie pierwszej litery na wielką
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 }

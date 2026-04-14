@@ -1,5 +1,6 @@
 package io.github.rakocki_wiktor.logic.actions;
 
+import io.github.rakocki_wiktor.model.Nation;
 import io.github.rakocki_wiktor.model.Province;
 
 public class AttackAction implements Action {
@@ -24,9 +25,18 @@ public class AttackAction implements Action {
     }
 
     public void win(Province winner, Province loser) {
+
+        Nation newOwner = winner.getNation();
+        Nation oldOwner = loser.getNation();
+
+        if (oldOwner != null) {
+            oldOwner.getOwnedProvinces().remove(loser);
+        }
+
         loser.setArmySize(attackingArmySize - loser.getArmySize());
-        loser.setNation(winner.getNation());
-        winner.getNation().addProvince(loser);
+        loser.setNation(newOwner);
+        newOwner.addProvince(loser);
+
         loser.setAttacked(false);
     }
 

@@ -86,6 +86,10 @@ public class Nation {
         return totalSize;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public int getRelation(Nation nation) {
         return relations.get(nation);
     }
