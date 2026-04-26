@@ -24,6 +24,8 @@ public class AttackAction implements Action {
         return provinceAttacked;
     }
 
+    public int getAttackingArmySize() { return attackingArmySize; }
+
     public void win(Province winner, Province loser) {
 
         Nation newOwner = winner.getNation();

@@ -15,6 +15,7 @@ public class RecruitAction implements Action{
     public Province getProvince() {
         return province;
     }
+    public int getRecruitedPopulation() { return recruitedPopulation; }
 
     public boolean canExecute() {
         return recruitedPopulation > 0 &&

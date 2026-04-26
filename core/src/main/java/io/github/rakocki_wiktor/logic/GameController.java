@@ -14,6 +14,7 @@ public class GameController {
 
     private final Player player;
     private ActionsManager actionsManager;
+    private GameStateData gameStateData;
     private Province selectedProvince;
     private UIEventListener uiEventListener;
     private GameState state = GameState.PICKING_NATION;
@@ -22,6 +23,7 @@ public class GameController {
 
     public GameController(GameStateData gameStateData) {
         actionsManager = new ActionsManager();
+        this.gameStateData = gameStateData;
         this.player = gameStateData.getPlayer();
         this.turnProcessor = new GameTurnProcessor(gameStateData);
         this.aiController = new AIController(gameStateData, actionsManager);
@@ -149,10 +151,11 @@ public class GameController {
     }
 
     public void endTurn() {
-        turnProcessor.processTurn();
-        aiController.makeTurn();
         actionsManager.executeActions();
         actionsManager.removeAllActions();
+        turnProcessor.processTurn();
+        aiController.makeTurn();
+        gameStateData.setActions(actionsManager.getActions());
         updateInfoAreas();
 
     }

@@ -23,6 +23,8 @@ public class MoveUnitsAction implements Action{
         return destinationProvince;
     }
 
+    public int getArmySize() { return armySize; }
+
     public boolean canExecute() {
         return armySize < sourceProvince.getArmySize() && sourceProvince.getNation().getActionPoints() > 0;
     }

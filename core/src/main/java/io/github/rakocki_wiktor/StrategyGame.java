@@ -23,15 +23,11 @@ import java.util.ArrayList;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class StrategyGame extends ApplicationAdapter {
 
-
-    MapGenerator mapGenerator;
-    MapPopulator mapPopulator;
     InputHandler inputHandler;
     GameRenderer renderer;
     UIManager uiManager;
     OrthographicCamera camera;
-    ArrayList<Province> provinces;
-    ArrayList<Nation> nations;
+    GameStateData gameStateData;
     public final int MAP_WIDTH = 5000;
     public final int MAP_HEIGHT = 5000;
 
@@ -42,10 +38,10 @@ public class StrategyGame extends ApplicationAdapter {
         Stage stage = new Stage(new ScreenViewport());
         renderer = new GameRenderer(camera, stage);
 
-        provinces = MapGenerator.generateProvinces(MAP_HEIGHT, MAP_WIDTH);
-        nations = MapPopulator.populate(provinces);
+        ArrayList<Province> provinces = MapGenerator.generateProvinces(MAP_HEIGHT, MAP_WIDTH);
+        ArrayList<Nation> nations = MapPopulator.populate(provinces);
         Player player = new Player();
-        GameStateData gameStateData = new GameStateData(provinces, nations, player);
+        gameStateData = new GameStateData(provinces, nations, player);
 
         GameController gameController = new GameController(gameStateData);
         inputHandler = new InputHandler(provinces, camera, gameController);
@@ -64,7 +60,7 @@ public class StrategyGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         inputHandler.update();
         camera.update();
-        renderer.render(provinces);
+        renderer.render(gameStateData);
     }
 
     @Override
